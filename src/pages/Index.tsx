@@ -1,14 +1,23 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+
+import { Navigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 
 const Index = () => {
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
+  const { isAuthenticated, isLoading } = useAuth();
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-600 via-blue-600 to-indigo-800">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white"></div>
       </div>
-    </div>
-  );
+    );
+  }
+
+  if (isAuthenticated) {
+    return <Navigate to="/feed" replace />;
+  }
+
+  return <Navigate to="/login" replace />;
 };
 
 export default Index;
